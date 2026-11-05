@@ -101,7 +101,7 @@ if ('IntersectionObserver' in window && !reducedMotion.matches) {
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -18px 0px' });
+  }, { threshold: 0.03, rootMargin: '0px 0px 96px 0px' });
   document.querySelectorAll('.steps-grid, .approach-principles').forEach(group => {
     group.querySelectorAll('[data-reveal]').forEach((element, i) => { element.style.transitionDelay = `${i * 75}ms`; });
   });
