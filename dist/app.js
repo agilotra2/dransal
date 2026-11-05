@@ -1,50 +1,219 @@
 'use strict';
-const services={
- 'Nursing Care':{category:'PERSONAL ATTENTION',description:'Discuss nursing support around individual needs, comfort, and the treating clinician’s recommendations.',points:['Clarify the type of nursing assistance needed','Discuss visit or shift requirements','Agree the responsibilities and care routine'],note:'Clinical tasks need appropriately qualified professionals and an agreed scope of care.'},
- 'Elder & Companion Care':{category:'EVERYDAY REASSURANCE',description:'Explore a helping hand for an older loved one, with an emphasis on companionship, familiar routines, and independence.',points:['Companionship and a reassuring presence','Support with agreed everyday activities','Respect for preferences and familiar routines'],note:'Discuss mobility, supervision, scheduling, and any specific needs before arranging support.'},
- 'Post-Hospital Recovery':{category:'A GENTLER TRANSITION',description:'Plan the practical support that may be helpful after a hospital stay, guided by the treating team’s discharge advice.',points:['Review the recommended support after discharge','Discuss routines and practical needs at home','Clarify care requirements before the start date'],note:'Follow the treating clinician’s recommendations. Availability and suitability need confirmation.'},
- 'Physiotherapy Support':{category:'ONE STEP AT A TIME',description:'Explore movement and rehabilitation support suited to the person’s abilities and recovery goals.',points:['Discuss mobility and rehabilitation needs','Ask about professional assessment','Understand the recommended plan and goals'],note:'A qualified physiotherapist should assess suitability before providing treatment.'},
- 'Personal & Daily Care':{category:'COMFORT & DIGNITY',description:'Explore sensitive, respectful assistance with everyday routines, while keeping personal choice at the centre.',points:['Support with agreed personal care routines','Help with everyday comfort and practical tasks','Respect for privacy and independence'],note:'Agree exactly which tasks are included, the level of assistance, and the schedule before arranging care.'}
+
+const serviceData = {
+  nursing: {
+    name: 'Nursing care', label: 'Personal attention', icon: 'nurse',
+    title: 'Skilled support.<br>A gentler everyday.',
+    description: 'Explore nursing support around individual care needs and the treating clinician’s recommendations.',
+    points: ['Understand the nursing assistance needed', 'Discuss visits, shifts and daily routines', 'Agree responsibilities before care begins'],
+    questions: ['What clinical tasks are needed, and who is qualified to provide them?', 'How will the nurse coordinate with the treating clinician?', 'What observations or concerns should be reported, and to whom?']
+  },
+  elder: {
+    name: 'Elder & companion care', label: 'Company & reassurance', icon: 'heart',
+    title: 'A familiar face.<br>A helping hand.',
+    description: 'Explore companionship and everyday assistance that respect an older person’s preferences and independence.',
+    points: ['Consider company and everyday activities', 'Talk through mobility and supervision needs', 'Fit support around familiar routines'],
+    questions: ['Which everyday activities would benefit from assistance?', 'What routines, interests and preferences matter most?', 'Is help with mobility or supervision needed?']
+  },
+  recovery: {
+    name: 'Post-hospital recovery', label: 'A supported return home', icon: 'clipboard',
+    title: 'Coming home.<br>With a little support.',
+    description: 'Plan the practical support that may be helpful after a hospital stay, guided by the discharge team’s advice.',
+    points: ['Review the discharge recommendations', 'Discuss equipment and the home environment', 'Confirm support before the return home'],
+    questions: ['What support does the discharge team recommend?', 'Does the home need equipment or a safety assessment?', 'How will follow-up appointments and changing needs be coordinated?']
+  },
+  physio: {
+    name: 'Physiotherapy support', label: 'Movement & rehabilitation', icon: 'movement',
+    title: 'Small steps.<br>Meaningful progress.',
+    description: 'Explore rehabilitation support shaped around mobility, comfort and individual recovery goals.',
+    points: ['Arrange a professional assessment', 'Discuss appropriate exercises and goals', 'Understand how progress will be reviewed'],
+    questions: ['Who will assess suitability for physiotherapy?', 'What mobility goals and precautions should guide the plan?', 'How will exercises and progress be reviewed?']
+  },
+  daily: {
+    name: 'Personal & daily care', label: 'Comfort & independence', icon: 'home-heart',
+    title: 'Everyday help.<br>With dignity, always.',
+    description: 'Explore respectful assistance with personal routines while keeping privacy and individual choice at the centre.',
+    points: ['Clarify the tasks where help is needed', 'Respect personal preferences and privacy', 'Agree the level of assistance and schedule'],
+    questions: ['Which personal care tasks need assistance?', 'What preferences and privacy boundaries should be respected?', 'How can support encourage independence where possible?']
+  }
 };
-const dialog=document.querySelector('#care-dialog');
-const content=document.querySelector('#dialog-content');
+
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const smallScreen = window.matchMedia('(max-width: 650px)');
+const tabs = [...document.querySelectorAll('[data-service]')];
+const tablist = document.querySelector('.service-list');
+const panel = document.querySelector('#service-panel');
+let selectedService = 'nursing';
+let panelAnimation;
+
+function selectService(button, focus = false) {
+  selectedService = button.dataset.service;
+  const data = serviceData[selectedService];
+  tabs.forEach(tab => {
+    tab.setAttribute('aria-selected', String(tab === button));
+    tab.tabIndex = tab === button ? 0 : -1;
+  });
+  panel.setAttribute('aria-labelledby', button.id);
+  panel.querySelector('.panel-label').textContent = data.label;
+  panel.querySelector('.panel-top use').setAttribute('href', `#${data.icon}`);
+  document.querySelector('#panel-content').innerHTML = `<h3>${data.title}</h3><p>${data.description}</p><ul class="check-list">${data.points.map(point => `<li>${point}</li>`).join('')}</ul>`;
+  panel.querySelector('[data-checklist]').dataset.checklist = selectedService;
+  document.querySelector('#service-count').textContent = `${String(tabs.indexOf(button) + 1).padStart(2, '0')} / 05`;
+  if (!reducedMotion.matches) {
+    panelAnimation?.cancel();
+    panelAnimation = document.querySelector('#panel-content').animate(
+      [{ opacity: 0, transform: 'translateY(9px)' }, { opacity: 1, transform: 'translateY(0)' }],
+      { duration: 350, easing: 'cubic-bezier(.22,1,.36,1)' }
+    );
+  }
+  if (focus) button.focus({ preventScroll: true });
+}
+function updateTabOrientation() {
+  tablist.setAttribute('aria-orientation', smallScreen.matches ? 'horizontal' : 'vertical');
+}
+updateTabOrientation();
+smallScreen.addEventListener('change', updateTabOrientation);
+tabs.forEach((button, index) => {
+  button.addEventListener('click', () => selectService(button));
+  button.addEventListener('keydown', event => {
+    const nextKey = smallScreen.matches ? 'ArrowRight' : 'ArrowDown';
+    const previousKey = smallScreen.matches ? 'ArrowLeft' : 'ArrowUp';
+    let next;
+    if (event.key === nextKey) next = (index + 1) % tabs.length;
+    if (event.key === previousKey) next = (index + tabs.length - 1) % tabs.length;
+    if (event.key === 'Home') next = 0;
+    if (event.key === 'End') next = tabs.length - 1;
+    if (next !== undefined) {
+      event.preventDefault();
+      selectService(tabs[next], true);
+      if (smallScreen.matches) tabs[next].scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+    }
+  });
+});
+
+/* Reveal once, with all content visible when motion is reduced or JS is absent. */
+const revealElements = [...document.querySelectorAll('[data-reveal]')];
+if ('IntersectionObserver' in window && !reducedMotion.matches) {
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -18px 0px' });
+  document.querySelectorAll('.steps-grid, .approach-principles').forEach(group => {
+    group.querySelectorAll('[data-reveal]').forEach((element, i) => { element.style.transitionDelay = `${i * 75}ms`; });
+  });
+  document.documentElement.classList.add('motion-ready');
+  revealElements.forEach(element => revealObserver.observe(element));
+}
+reducedMotion.addEventListener('change', event => {
+  if (event.matches) {
+    document.documentElement.classList.remove('motion-ready');
+    panelAnimation?.cancel();
+  }
+});
+
+/* Navigation states match the section actually being read. */
+const menuToggle = document.querySelector('.menu-toggle');
+const mobileNav = document.querySelector('#mobile-nav');
+function closeMenu() {
+  mobileNav.hidden = true;
+  menuToggle.setAttribute('aria-expanded', 'false');
+  menuToggle.setAttribute('aria-label', 'Open navigation');
+}
+menuToggle.addEventListener('click', () => {
+  const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+  mobileNav.hidden = expanded;
+  menuToggle.setAttribute('aria-expanded', String(!expanded));
+  menuToggle.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
+});
+mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !mobileNav.hidden) {
+    closeMenu();
+    menuToggle.focus({ preventScroll: true });
+  }
+});
+window.matchMedia('(min-width: 901px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+const header = document.querySelector('#header');
+let scrollQueued = false;
+window.addEventListener('scroll', () => {
+  if (scrollQueued) return;
+  scrollQueued = true;
+  requestAnimationFrame(() => { header.classList.toggle('scrolled', window.scrollY > 12); scrollQueued = false; });
+}, { passive: true });
+if ('IntersectionObserver' in window) {
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) document.querySelectorAll('[data-nav]').forEach(link => {
+        if (link.dataset.nav === entry.target.id) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    });
+  }, { rootMargin: '-15% 0px -55% 0px', threshold: 0 });
+  document.querySelectorAll('main > section[id]').forEach(section => sectionObserver.observe(section));
+}
+
+/* A useful local checklist. No contact details or medical records are collected. */
+const dialog = document.querySelector('#care-dialog');
+const dialogContent = document.querySelector('#dialog-content');
 let previousFocus;
-let draft={};
-const icon=id=>`<svg aria-hidden="true"><use href="#${id}"/></svg>`;
-const escapeHtml=value=>String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-function showDialog(markup){
- if(!dialog.open){previousFocus=document.activeElement;dialog.showModal();}
- content.innerHTML=markup;dialog.scrollTop=0;
- (content.querySelector('input,select')||document.querySelector('.dialog-close')).focus({preventScroll:true});
+let checklistDraft = { service: '', timing: '' };
+const icon = id => `<svg aria-hidden="true"><use href="#${id}"/></svg>`;
+function showDialog(markup) {
+  if (!dialog.open) previousFocus = document.activeElement;
+  dialogContent.innerHTML = markup;
+  if (!dialog.open) dialog.showModal();
+  dialog.scrollTop = 0;
+  const heading = dialogContent.querySelector('#dialog-title');
+  heading.tabIndex = -1;
+  heading.focus({ preventScroll: true });
 }
-document.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
-dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
-dialog.addEventListener('close',()=>{if(previousFocus?.isConnected)previousFocus.focus({preventScroll:true});});
-function showService(name){
- const item=services[name];
- showDialog(`<div class="dialog-eyebrow">${item.category}</div><h2 class="dialog-title" id="dialog-title">${escapeHtml(name)}</h2><p class="dialog-description">${item.description}</p><ul class="dialog-points">${item.points.map(p=>`<li>${icon('check')}<span>${p}</span></li>`).join('')}</ul><button class="button dialog-button" id="service-enquire">Prepare a care enquiry ${icon('arrow-up-right')}</button><p class="dialog-note">${item.note}</p>`);
- content.querySelector('#service-enquire').addEventListener('click',()=>showEnquiry(name));
+document.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+dialog.addEventListener('click', event => {
+  if (event.target === dialog) {
+    const rect = dialog.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+  }
+});
+dialog.addEventListener('close', () => { if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true }); });
+function showChecklist(service = '') {
+  if (service) checklistDraft.service = service;
+  showDialog(`<p class="eyebrow">Prepare for the conversation</p><h2 class="dialog-title" id="dialog-title">Your care checklist.</h2><p class="dialog-description">Choose what you’re exploring. Get a short list of practical questions to keep, copy or download.</p><form id="checklist-form"><div class="form-field"><label for="checklist-service">What support are you considering?</label><select id="checklist-service" name="service" required><option value="">Choose a care option</option>${Object.entries(serviceData).map(([key, item]) => `<option value="${key}"${key === checklistDraft.service ? ' selected' : ''}>${item.name}</option>`).join('')}<option value="unsure"${checklistDraft.service === 'unsure' ? ' selected' : ''}>I’m not sure yet</option></select></div><div class="form-field"><label for="checklist-timing">When are you planning for?</label><select id="checklist-timing" name="timing" required><option value="">Choose a timeframe</option>${['As soon as available', 'Within the next week', 'Planning ahead', 'Not sure yet'].map(timing => `<option${timing === checklistDraft.timing ? ' selected' : ''}>${timing}</option>`).join('')}</select></div><button class="button button-navy dialog-full" type="submit">Create my checklist ${icon('arrow-up-right')}</button><p class="form-hint">This tool prepares questions only. It doesn’t send an enquiry, arrange care or save personal information.</p></form>`);
+  dialogContent.querySelector('form').addEventListener('submit', event => {
+    event.preventDefault();
+    checklistDraft = Object.fromEntries(new FormData(event.currentTarget));
+    showChecklistResult();
+  });
 }
-function showEnquiry(selected=''){
- if(selected)draft.service=selected;
- showDialog(`<div class="dialog-eyebrow">GENTLE HANDS HOME CARE</div><h2 class="dialog-title" id="dialog-title">A thoughtful start<br>to <em>finding care.</em></h2><p class="dialog-description">Put together a simple care enquiry. This homepage preview can prepare your summary; contact and booking will be connected before launch.</p><form id="enquiry-form"><div class="field-row"><div class="form-field"><label for="enquiry-name">Your name</label><input id="enquiry-name" name="name" autocomplete="name" placeholder="Your name" maxlength="70" required value="${escapeHtml(draft.name||'')}"></div><div class="form-field"><label for="enquiry-city">City or area</label><input id="enquiry-city" name="city" autocomplete="address-level2" placeholder="Your city" maxlength="70" required value="${escapeHtml(draft.city||'')}"></div></div><div class="form-field"><label for="enquiry-service">Support you’re considering</label><select id="enquiry-service" name="service" required><option value="">Choose a service</option>${[...Object.keys(services),'Help choosing care'].map(name=>`<option${name===draft.service?' selected':''}>${escapeHtml(name)}</option>`).join('')}</select></div><div class="form-field"><label for="enquiry-timing">When would you like support?</label><select id="enquiry-timing" name="timing" required><option value="">Choose a timeframe</option>${['As soon as available','Within the next week','Planning ahead','Not sure yet'].map(t=>`<option${t===draft.timing?' selected':''}>${t}</option>`).join('')}</select></div><p class="form-hint">Keep medical details out of this form. Your answers stay in this page’s memory and are not sent or saved by the website.</p><button class="button dialog-button" type="submit">Prepare my summary ${icon('arrow-up-right')}</button></form><p class="dialog-note">This prepares an enquiry only. It does not request a callback or make a booking.</p>`);
- const form=content.querySelector('form');
- form.addEventListener('submit',event=>{event.preventDefault();for(const name of ['name','city']){if(!form.elements[name].value.trim()){const field=form.elements[name];field.setCustomValidity('Please enter a value.');field.reportValidity();field.addEventListener('input',()=>field.setCustomValidity(''),{once:true});return;}}draft=Object.fromEntries(new FormData(form));showReview();});
+function showChecklistResult() {
+  const data = serviceData[checklistDraft.service];
+  const name = data?.name || 'Choosing the right support';
+  const questions = [
+    ...(data?.questions || ['What type of support matches the person’s daily needs?', 'Is a clinical assessment needed before deciding on care?', 'Which tasks need a nurse, a therapist or an attendant?']),
+    'Is the service available in my area and preferred timeframe?',
+    'What is included in the quote, and are there additional charges?',
+    'How will the family receive updates and raise concerns?'
+  ];
+  const text = `Gentle Hands Home Care — Care conversation checklist\n\nExploring: ${name}\nTiming: ${checklistDraft.timing}\n\n${questions.map((question, index) => `${index + 1}. ${question}`).join('\n')}\n\nDiscuss suitability with the treating clinician. Confirm service availability and terms directly before arranging care.`;
+  showDialog(`<p class="eyebrow">A clearer next step</p><h2 class="dialog-title" id="dialog-title">Ready with the<br>right questions.</h2><p class="result-context">${name} · ${checklistDraft.timing}</p><div class="checklist-result"><p class="eyebrow">Ask about</p><ul>${questions.map(question => `<li>${question}</li>`).join('')}</ul></div><div class="dialog-actions"><button class="button button-outline" id="edit-checklist">Change choices</button><button class="button button-navy" id="copy-checklist">Copy checklist ${icon('clipboard')}</button></div><button class="secondary-action" id="download-checklist">Download as a text file</button><p class="copy-status" role="status" aria-live="polite"></p><p class="form-hint">Keep this for your conversation. No enquiry or booking has been sent.</p>`);
+  dialogContent.querySelector('#edit-checklist').addEventListener('click', () => showChecklist());
+  dialogContent.querySelector('#copy-checklist').addEventListener('click', async () => {
+    const status = dialogContent.querySelector('.copy-status');
+    try { await navigator.clipboard.writeText(text); status.textContent = 'Checklist copied.'; }
+    catch { status.textContent = 'Copy isn’t available here. Please use the download option.'; }
+  });
+  dialogContent.querySelector('#download-checklist').addEventListener('click', () => {
+    const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'gentle-hands-care-checklist.txt';
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    dialogContent.querySelector('.copy-status').textContent = 'Your checklist is ready to save.';
+  });
 }
-function showReview(){
- const summary=`Care enquiry for Gentle Hands Home Care\n\nName: ${draft.name.trim()}\nCity or area: ${draft.city.trim()}\nSupport: ${draft.service}\nPreferred timeframe: ${draft.timing}\n\nPlease help me understand service availability, suitable support, and next steps.`;
- showDialog(`<div class="dialog-eyebrow">A LITTLE CLARITY FOR THE NEXT STEP</div><h2 class="dialog-title" id="dialog-title">Your care enquiry,<br><em>thoughtfully prepared.</em></h2><p class="dialog-description">Here’s a summary you can keep for your conversation with Gentle Hands.</p><label class="form-hint" for="care-summary">Your enquiry summary</label><textarea class="review-copy" id="care-summary" readonly>${escapeHtml(summary)}</textarea><div class="form-status">Nothing has been sent. Direct contact and booking are not connected in this homepage preview.</div><div class="review-actions"><button class="button button-outline" id="edit-enquiry">Edit details</button><button class="button" id="copy-enquiry">Copy summary ${icon('clipboard')}</button></div><button class="dialog-action-secondary" id="download-enquiry">Download as a text file</button><p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>`);
- content.querySelector('#edit-enquiry').addEventListener('click',()=>showEnquiry());
- content.querySelector('#copy-enquiry').addEventListener('click',async()=>{const status=content.querySelector('#copy-status');try{await navigator.clipboard.writeText(summary);status.textContent='Summary copied. Keep it for your care conversation.';}catch{content.querySelector('#care-summary').select();status.textContent='Select and copy the summary above, or download it below.';}});
- content.querySelector('#download-enquiry').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([summary],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='gentle-hands-care-enquiry.txt';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);content.querySelector('#copy-status').textContent='Your summary is ready to save. No enquiry has been sent.';});
-}
-document.querySelectorAll('[data-service]').forEach(b=>b.addEventListener('click',()=>showService(b.dataset.service)));
-document.querySelectorAll('[data-enquire]').forEach(b=>b.addEventListener('click',()=>showEnquiry()));
-document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(filter=>{filter.classList.toggle('active',filter===button);filter.setAttribute('aria-pressed',String(filter===button));});document.querySelectorAll('.service-card[data-category]').forEach(card=>{card.hidden=button.dataset.filter!=='all'&&card.dataset.category!==button.dataset.filter;});}));
-const menuToggle=document.querySelector('.menu-toggle');const mobileNav=document.querySelector('#mobile-nav');
-function closeMenu(){mobileNav.hidden=true;menuToggle.setAttribute('aria-expanded','false');menuToggle.setAttribute('aria-label','Open navigation');}
-menuToggle.addEventListener('click',()=>{const open=menuToggle.getAttribute('aria-expanded')==='true';mobileNav.hidden=open;menuToggle.setAttribute('aria-expanded',String(!open));menuToggle.setAttribute('aria-label',open?'Open navigation':'Close navigation');});
-mobileNav.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));
-document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!mobileNav.hidden){closeMenu();menuToggle.focus();}});
-window.matchMedia('(min-width:851px)').addEventListener('change',event=>{if(event.matches)closeMenu();});
-document.querySelector('#privacy-open').addEventListener('click',()=>showDialog(`<div class="dialog-eyebrow">GENTLE HANDS HOME CARE</div><h2 class="dialog-title" id="dialog-title">About this<br><em>homepage preview.</em></h2><p class="dialog-description">This is a first-page design preview. Contact details, confirmed service availability, and business policies will be added before a public launch.</p><ul class="dialog-points"><li>${icon('shield')}<span>Forms do not send data or make bookings. Answers stay in page memory until you refresh or close the page.</span></li><li>${icon('heart')}<span>The caregiver photograph is AI-generated illustrative imagery, not a real patient or testimonial.</span></li><li>${icon('home-heart')}<span>The supplied Gentle Hands logo is used in its original colours.</span></li></ul><p class="dialog-note">The page uses Google Fonts. No analytics or tracking scripts are included.</p>`));
+document.querySelectorAll('[data-checklist]').forEach(button => button.addEventListener('click', () => showChecklist(button.dataset.checklist)));
+document.querySelector('#preview-info').addEventListener('click', () => showDialog(`<p class="eyebrow">Gentle Hands Home Care</p><h2 class="dialog-title" id="dialog-title">About this preview.</h2><p class="dialog-description">This is a single-page design preview. Business contact details, confirmed service scope, service area and policies are still to be supplied before a public launch.</p><ul class="preview-list"><li>${icon('clipboard')}<span>The checklist runs in your browser. It does not request a callback or make a booking.</span></li><li>${icon('heart')}<span>The caregiver photograph is AI-generated illustrative imagery, not a real patient or testimonial.</span></li><li>${icon('shield')}<span>No personal information is collected. The page uses Google Fonts and has no analytics scripts.</span></li></ul>`));

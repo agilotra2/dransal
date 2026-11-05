@@ -1,25 +1,28 @@
 # Gentle Hands Home Care
 
-A single responsive homepage for Gentle Hands Home Care. The supplied logo is preserved, with its navy, turquoise, and gold carried into an ivory-based website design. All navigation stays within this homepage.
+A single responsive homepage using the supplied logo, navy, turquoise, muted gold, and warm ivory.
 
 ## Preview
 
 Run `python3 -m http.server 4173 --bind 127.0.0.1 --directory dist` and open http://127.0.0.1:4173.
 
-## Scope
+## Layout and behaviour
 
-The homepage contains service browsing, service details, a care approach, a three-step explanation, brand values, FAQs, and an enquiry preparation form. It has no server, booking, callback, messaging, or patient-record storage. The form prepares a summary that the visitor can copy or download; it does not submit anywhere. Contact details, service area, confirmed service offerings, and business policies are still required before public launch.
+The rebuilt page uses one coherent stylesheet, an 88px desktop header, a compact hero with one photograph, a service selector, practical care principles, a three-step guide, FAQs, and a local checklist builder. Section spacing is 60px on desktop and 40px on mobile; regular copy is 15–18px, with smaller type reserved for supporting labels. Mobile service options scroll horizontally and support keyboard navigation.
 
-The displayed services are proposed homepage content and require owner confirmation. No statistics, patient testimonials, accreditation, or guaranteed response times are invented.
+Motion includes a staggered hero entrance, a photograph entrance, one-time scroll reveals, animated service changes, FAQ disclosure feedback, and button/nav hover states. Reduced-motion preferences disable these effects and leave all content visible. The page remains readable without JavaScript; the default nursing information and native FAQs are present in HTML.
+
+## Checklist and contact scope
+
+The checklist asks for the care category and timeframe only. It generates relevant questions for copying or downloading. It does not collect names, phone numbers, medical records, or other personal data, and does not send an enquiry or make a booking. Contact details, service area, actual service offerings, and business policies still need to be supplied before launch. Navigation and buttons describe their actual actions.
 
 ## Assets
 
-- `dist/assets/gentle-hands-logo.png`: original supplied logo screenshot, displayed without modifying its colours.
-- `dist/assets/gentle-hands-care.jpg`: optimised hero image generated with the built-in image tool. It is illustrative, not a real patient or testimonial.
+- `dist/assets/gentle-hands-logo.png`: the original supplied logo. The header displays its central symbol with a readable wordmark; the footer displays the complete seal.
+- `dist/assets/gentle-hands-care.jpg`: the original generated care image, used once.
 - `output/imagegen/gentle-hands-care.png`: retained generated original.
-- `output/imagegen/prompt.md`: generation prompt and provenance.
-- Original reference assets are retained in `docs/reference-assets/` and are not deployed.
+- `output/imagegen/prompt.md`: saved generation prompt and provenance.
 
 ## Deployment
 
-Reuse the Site identity in `.openai/hosting.json`; static output is `dist/`. The homepage is privately published via Sites.
+The existing private Site identity is retained in `.openai/hosting.json`; deploy `dist/` through Sites.
