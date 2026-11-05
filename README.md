@@ -1,23 +1,25 @@
-# Kokoro — Care comes home
+# Gentle Hands Home Care
 
-A responsive, independent redesign concept based on https://kokoro.plus/home/.
+A single responsive homepage for Gentle Hands Home Care. The supplied logo is preserved, with its navy, turquoise, and gold carried into an ivory-based website design. All navigation stays within this homepage.
 
 ## Preview
 
-Run `python3 -m http.server 4173 --bind 127.0.0.1 --directory dist` from this directory and open http://127.0.0.1:4173.
+Run `python3 -m http.server 4173 --bind 127.0.0.1 --directory dist` and open http://127.0.0.1:4173.
 
-The website is dependency-free and deploys directly from `dist/`. Google Fonts provides DM Sans and Manrope, with local system fallbacks. Reference photography was retrieved from the supplied Kokoro website.
+## Scope
 
-## Interactions
+The homepage contains service browsing, service details, a care approach, a three-step explanation, brand values, FAQs, and an enquiry preparation form. It has no server, booking, callback, messaging, or patient-record storage. The form prepares a summary that the visitor can copy or download; it does not submit anywhere. Contact details, service area, confirmed service offerings, and business policies are still required before public launch.
 
-- Filterable service directory with detailed service dialogs.
-- Three-step service-navigation guide, with a context-specific next step.
-- Validated enquiry form, review/edit screen, and explicit WhatsApp handoff to Kokoro's published contact.
-- Keyboard accessible equipment tabs, native FAQ disclosures, and mobile menu.
-- Responsive layout, native modal focus containment, and reduced-motion support.
+The displayed services are proposed homepage content and require owner confirmation. No statistics, patient testimonials, accreditation, or guaranteed response times are invented.
 
-No booking, callback, payment, or medical assessment is performed. The site has no backend and does not persist form entries. Contact details remain in page memory until the page is refreshed; a visitor chooses whether to continue to WhatsApp and send the prepared message. External company and policy links go to the original service.
+## Assets
 
-## Verification
+- `dist/assets/gentle-hands-logo.png`: original supplied logo screenshot, displayed without modifying its colours.
+- `dist/assets/gentle-hands-care.jpg`: optimised hero image generated with the built-in image tool. It is illustrative, not a real patient or testimonial.
+- `output/imagegen/gentle-hands-care.png`: retained generated original.
+- `output/imagegen/prompt.md`: generation prompt and provenance.
+- Original reference assets are retained in `docs/reference-assets/` and are not deployed.
 
-Browser QA covered desktop and 390px mobile layouts, image loading, horizontal overflow, service filtering, the care-finder path to physiotherapy, enquiry preselection and review, required-field validation, mobile navigation and Escape, keyboard equipment tabs, FAQ disclosure, and browser errors. JavaScript passed `node --check dist/app.js`.
+## Deployment
+
+Reuse the Site identity in `.openai/hosting.json`; static output is `dist/`. The homepage is privately published via Sites.
