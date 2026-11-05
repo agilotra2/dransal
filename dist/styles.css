@@ -107,6 +107,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* Service navigation replaces the repeated card grid. */
 .services-section { background: var(--ivory); }
+.services-section .section-heading { display: block; }
+.services-section .section-heading > p { max-width: 720px; margin-top: 12px; }
+.services-section .section-heading > p br { display: none; }
 .service-browser { display: grid; grid-template-columns: .91fr 1.09fr; gap: 24px; }
 .service-list { display: flex; flex-direction: column; border-block: 1px solid var(--line); }
 .service-tab { display: flex; align-items: center; gap: 17px; min-height: 86px; text-align: left; padding: 14px 17px; border-bottom: 1px solid var(--line); background: transparent; position: relative; transition: background-color .25s, color .25s; border-radius: 0; }
