@@ -1,0 +1,37 @@
+[
+  {
+    "id": "nursing", "name": "Nursing care", "short": "Clinical & personal support", "icon": "nurse",
+    "heading": "Nursing support, in familiar surroundings.",
+    "description": "Explore nursing support around individual care needs and the treating clinician’s recommendations.",
+    "points": ["The nursing assistance and qualifications needed", "Visit or shift timings that fit the care routine", "Responsibilities, updates and clinical coordination"],
+    "questions": ["Which tasks need a qualified nurse?", "How will support be coordinated with the treating clinician?", "What concerns should be reported, and to whom?"]
+  },
+  {
+    "id": "elder", "name": "Elder & companion care", "short": "Companionship & everyday routines", "icon": "heart",
+    "heading": "A helping hand with everyday life.",
+    "description": "Explore companionship and practical assistance that respect an older person’s routines, preferences and independence.",
+    "points": ["The everyday activities where help would be useful", "Mobility, supervision and companionship needs", "Personal routines, interests and preferences"],
+    "questions": ["Which activities would benefit from a helping hand?", "What routines and interests matter most?", "Is assistance with mobility or supervision needed?"]
+  },
+  {
+    "id": "recovery", "name": "Post-hospital recovery", "short": "Support for the return home", "icon": "clipboard",
+    "heading": "Make the return home easier to plan.",
+    "description": "Plan practical support after a hospital stay, guided by the discharge team’s advice and the person’s needs at home.",
+    "points": ["The treating team’s discharge recommendations", "Equipment and practical arrangements at home", "Follow-up care, timing and family responsibilities"],
+    "questions": ["What support does the discharge team recommend?", "Does the home need equipment or a safety assessment?", "How will follow-up care and changing needs be coordinated?"]
+  },
+  {
+    "id": "physio", "name": "Physiotherapy support", "short": "Movement & rehabilitation", "icon": "movement",
+    "heading": "Support for movement and recovery.",
+    "description": "Explore rehabilitation support based on a professional assessment, individual mobility and appropriate recovery goals.",
+    "points": ["Assessment by an appropriately qualified professional", "Movement goals, precautions and exercises", "How progress and the plan will be reviewed"],
+    "questions": ["Who will assess suitability for physiotherapy?", "Which movement goals and precautions should guide the plan?", "How will exercises and progress be reviewed?"]
+  },
+  {
+    "id": "daily", "name": "Personal & daily care", "short": "Assistance with comfort & dignity", "icon": "home-heart",
+    "heading": "Everyday assistance that respects choice.",
+    "description": "Explore sensitive help with personal routines, with privacy, comfort and individual choice at the centre of the conversation.",
+    "points": ["The personal routines where assistance is needed", "Preferences, privacy and the right level of help", "A practical schedule and clear task boundaries"],
+    "questions": ["Which personal care tasks need assistance?", "What preferences and privacy boundaries should be respected?", "How can support encourage independence where possible?"]
+  }
+]
