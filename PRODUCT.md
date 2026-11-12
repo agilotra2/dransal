@@ -1,4 +1,4 @@
-# Gentle Hands Home Care homepage
+# Gentle Hands Home Care website
 
 ## Purpose and audience
 
@@ -10,7 +10,7 @@ Understand the service → explore a care category → understand how care is pl
 
 ## Scope
 
-One homepage only. Service categories are preview content to be confirmed by the business. No booking, payments, clinical assessment, accounts, enquiry submission or personal-data collection is implemented.
+The approved homepage now connects to About, a service directory, five service detail pages, a guide directory, three care-planning articles, FAQs, Contact and factual website privacy information. Service categories are preview content to be confirmed by the business. No booking, payments, clinical assessment, accounts, enquiry submission or personal-data collection is implemented. Careers, partnership programmes and membership products are not part of the confirmed business scope.
 
 ## Confirm before public launch
 

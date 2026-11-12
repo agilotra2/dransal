@@ -20,12 +20,12 @@ const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
 const icon = name => `<svg aria-hidden="true"><use href="#${name}"/></svg>`;
 
 function renderService(service) {
-  return `<h3>${escapeHtml(service.heading)}</h3><p>${escapeHtml(service.description)}</p><p class="discussion-label">Useful to discuss</p><ul class="care-points">${service.points.map(point => `<li>${icon('check')}<span>${escapeHtml(point)}</span></li>`).join('')}</ul><a class="button button-primary" href="#care-plan" data-plan="${service.id}">Plan this care ${icon('arrow-right')}</a>`;
+  return `<h3>${escapeHtml(service.heading)}</h3><p>${escapeHtml(service.description)}</p><p class="discussion-label">Useful to discuss</p><ul class="care-points">${service.points.map(point => `<li>${icon('check')}<span>${escapeHtml(point)}</span></li>`).join('')}</ul><div class="service-actions"><a class="button button-primary" href="#care-plan" data-plan="${service.id}">Plan this care ${icon('arrow-right')}</a><a class="text-link" href="/services/${service.slug}/">Explore this service ${icon('arrow-right')}</a></div>`;
 }
 
 function selectService(id, focus = false) {
   const service = serviceById.get(id);
-  if (!service) return;
+  if (!service || !servicePanel) return;
   const selected = serviceTabs.find(tab => tab.dataset.service === id);
   serviceTabs.forEach(tab => {
     tab.setAttribute('aria-selected', String(tab === selected));
@@ -99,6 +99,8 @@ document.addEventListener('click', event => {
   updateQuestions();
 });
 careType.addEventListener('change', updateQuestions);
+const requestedCare = new URLSearchParams(location.search).get('care');
+if (serviceById.has(requestedCare)) careType.value = requestedCare;
 updateQuestions();
 
 form.addEventListener('submit', event => {
@@ -134,40 +136,3 @@ document.querySelector('#download-note').addEventListener('click', () => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   status.textContent = 'Care note ready to save. No enquiry has been sent.';
 });
-
-const menuToggle = document.querySelector('.menu-toggle');
-const mobileNav = document.querySelector('#mobile-nav');
-function closeMenu() {
-  mobileNav.hidden = true;
-  menuToggle.setAttribute('aria-expanded', 'false');
-  menuToggle.setAttribute('aria-label', 'Open navigation');
-}
-menuToggle.addEventListener('click', () => {
-  const open = menuToggle.getAttribute('aria-expanded') === 'true';
-  mobileNav.hidden = open;
-  menuToggle.setAttribute('aria-expanded', String(!open));
-  menuToggle.setAttribute('aria-label', open ? 'Open navigation' : 'Close navigation');
-});
-mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && !mobileNav.hidden) {
-    closeMenu();
-    menuToggle.focus({ preventScroll: true });
-  }
-});
-window.matchMedia('(min-width: 901px)').addEventListener('change', event => {
-  if (event.matches) closeMenu();
-});
-
-if ('IntersectionObserver' in window) {
-  const navigationObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      document.querySelectorAll('.main-nav a').forEach(link => {
-        if (link.getAttribute('href') === `#${entry.target.id}`) link.setAttribute('aria-current', 'location');
-        else link.removeAttribute('aria-current');
-      });
-    });
-  }, { rootMargin: '-15% 0px -55% 0px', threshold: 0 });
-  document.querySelectorAll('main > section[id]').forEach(section => navigationObserver.observe(section));
-}

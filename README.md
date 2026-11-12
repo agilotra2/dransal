@@ -1,10 +1,23 @@
 # Gentle Hands Home Care
 
-A responsive homepage using the supplied logo's navy, turquoise and gold, with white and pale mint surfaces. Care services and planning a conversation are the primary journey.
+A responsive website using the supplied logo's navy, turquoise and gold, with white and pale mint surfaces. Care services and planning a conversation are the primary journey.
 
 ## Preview
 
-Run `python3 scripts/build-homepage.py`, then `python3 -m http.server 4173 --bind 127.0.0.1 --directory dist` and open http://127.0.0.1:4173. The Python build uses only the standard library. Edit `src/index.template.html`, `content/services.json` and `src/icons.html`, then rebuild `dist/index.html`. Styles and browser JavaScript live directly in `dist/`.
+Run `python3 scripts/build-homepage.py`, then `python3 -m http.server 4173 --bind 127.0.0.1 --directory dist` and open http://127.0.0.1:4173. The Python build uses only the standard library and generates all pages. Shared shell files live in `src/`; services and guide/FAQ content live in `content/`; supporting-page rendering lives in `scripts/supporting_pages.py`. Styles and browser JavaScript live directly in `dist/`.
+
+Run `python3 scripts/verify-site.py`, `node --check dist/app.js` and `node --check dist/site.js` before publishing. The static verifier checks every generated page's links, fragments, assets, title and h1.
+
+## Pages
+
+- `/`: approved homepage, now linked to the supporting pages.
+- `/services/`: directory with five detail routes for nursing, companionship, recovery, physiotherapy and daily care.
+- `/about/`: care philosophy and the supplied brand seal.
+- `/guides/`: three practical family planning guides, each with its own article URL.
+- `/faqs/`: 12 answers grouped by topic, with local search and a clear-search action.
+- `/contact/`: care-note workflow; service links preselect the category through `?care=...`.
+- `/privacy/`: factual description of the current website's data handling.
+- `/404.html`: navigation back to useful pages when a route is missing.
 
 ## Layout and behaviour
 
@@ -26,6 +39,7 @@ The form asks for the care category and timeframe only. It prepares a care note 
 - `output/imagegen/mark-prompt.md`: saved logo preparation prompt and provenance.
 - `PRODUCT.md` and `DESIGN.md`: audience, visual rules and known business gaps.
 - `docs/impeccable-review.md`: design decisions, scan findings and verification.
+- `docs/supporting-pages-verification.md`: verification for the supporting-page expansion.
 
 ## Deployment
 

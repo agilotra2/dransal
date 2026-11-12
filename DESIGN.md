@@ -1,4 +1,4 @@
-# Homepage design rules
+# Website design rules
 
 ## Direction
 
@@ -23,3 +23,7 @@ Use native details/summary, visible focus indicators, labelled native selects, l
 ## Brand assets
 
 The header uses a separately prepared transparent raster pictogram plus readable wordmark. The original seal stays in the footer. Never simulate extraction by oversized CSS cropping. The care photograph is generated illustrative imagery, disclosed in the preview information.
+
+## Supporting pages
+
+Use the shared header and footer on every route. A persistent active-page underline replaces the homepage's section tracking. Directory pages use substantial linked rows; service details pair practical context with discussion prompts; articles use a readable main column and an in-page contents list. About uses navy and the supplied full seal. FAQs use grouped native disclosures and browser-local search. Contact reuses the existing local care-note workflow, including preselection from service links. Keep the unknown business details explicit and avoid invented staff, histories, testimonials or programmes.

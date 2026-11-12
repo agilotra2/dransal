@@ -1,0 +1,48 @@
+{
+  "faqs": [
+    {"group":"Choosing care","question":"How do I know which care service to explore?","answer":"Start with the routines where support is needed and any recommendations from the treating clinician. Nursing, physiotherapy and everyday assistance have different roles. Use the service pages to prepare questions, then confirm the appropriate support with a qualified professional."},
+    {"group":"Choosing care","question":"How are companion care and nursing care different?","answer":"Companionship focuses on everyday routines and social support. Nursing involves clinical responsibilities that require the appropriate professional qualifications. Confirm which tasks are needed and who is qualified to carry them out before making arrangements."},
+    {"group":"Choosing care","question":"Can more than one type of support be discussed?","answer":"Yes. A family may need to discuss a combination of practical, personal and clinical support. Agree the responsibilities of each person involved and confirm which services can actually be arranged."},
+    {"group":"Planning support","question":"Can I plan support before hospital discharge?","answer":"You can start the conversation before the return home. Ask the discharge team what needs to be arranged, who is responsible and which follow-up appointments are planned. Confirm the home-care arrangements with the treating team."},
+    {"group":"Planning support","question":"What should I have ready for a care conversation?","answer":"A short outline of the support needed, preferred timing, everyday routines and questions from the family is a useful start. Keep medical documents private and share them only through a confirmed, appropriate channel when requested by the care professional."},
+    {"group":"Planning support","question":"What should be included in a care quote?","answer":"Ask for the tasks included, visit or shift length, the role of the person providing support, and any additional charges. Confirm payment, cancellation and rescheduling terms directly before arranging care."},
+    {"group":"Planning support","question":"How should family updates be planned?","answer":"Agree one main family contact, a preferred way to share updates, what information will be shared and who to contact when questions arise. Ask how changes in the care plan will be discussed."},
+    {"group":"Availability & contact","question":"Where is care available?","answer":"The service area and local availability are still being confirmed for this website preview. Check these details directly with Gentle Hands before making any care arrangements."},
+    {"group":"Availability & contact","question":"How do I contact Gentle Hands?","answer":"Direct phone and email details have not yet been supplied for this preview. The Contact page can help you prepare a care note, but it does not send an enquiry or reserve support."},
+    {"group":"Availability & contact","question":"Does preparing a care note make a booking?","answer":"No. The note is created in your browser for you to copy or download. Nothing is submitted, no callback is requested and no appointment is booked."},
+    {"group":"This website","question":"Do I need to enter personal or medical details?","answer":"No. The care-note form asks only for a care category and a timeframe. It does not ask for a name, phone number, medical record or address."},
+    {"group":"This website","question":"Are the photographs and stories real patient experiences?","answer":"The caregiver photograph is generated illustrative imagery. The guides contain general planning questions, not patient stories or testimonials. No patient outcomes or personal experiences are claimed."}
+  ],
+  "guides": [
+    {
+      "slug":"planning-home-care","title":"Planning home care, together.","category":"Getting started","summary":"A practical starting point for a family conversation about support at home.","read":"4 min read","icon":"home-heart","service":"elder",
+      "intro":"Before choosing a service, take time to understand what a good day at home looks like for the person who will receive care. Their preferences are the starting point for a useful conversation.",
+      "sections":[
+        {"title":"Start with the everyday.","text":"Talk through a usual day together. Notice the routines the person values, where they would welcome help and what they want to continue doing independently.","points":["Which parts of the day feel difficult or tiring?","What routines, interests and personal choices matter most?","Who is already involved, and where would extra support help?"]},
+        {"title":"Separate the different kinds of help.","text":"Practical assistance, companionship, personal care and clinical support have different responsibilities. Write down the tasks you want to discuss, then ask which role and qualifications are appropriate.","points":["Which tasks are practical, personal or clinical?","Is professional assessment needed before deciding?","How will responsibilities be shared with the family?"]},
+        {"title":"Make the next conversation specific.","text":"Use your notes to discuss timing, availability and expectations. Ask for a clear explanation of what can be provided, what is outside the agreed scope and how changes will be reviewed.","points":["Preferred days, visit lengths or times of day","A named family contact and a way to share updates","A clear quote and the arrangements for reviewing support"]}
+      ],
+      "takeaway":"A care conversation is easier when it starts with the person, then turns their needs into a clear list of questions."
+    },
+    {
+      "slug":"returning-home-from-hospital","title":"Preparing for the return home.","category":"After a hospital stay","summary":"Questions to take to the discharge team before home-care arrangements are agreed.","read":"4 min read","icon":"clipboard","service":"recovery",
+      "intro":"Going home can bring both relief and practical questions. Use a conversation with the discharge team to understand what must be arranged and who will be responsible. Follow the treating team’s individual advice.",
+      "sections":[
+        {"title":"Clarify the discharge plan.","text":"Ask for the plan to be explained in a way the person and family understand. If anything is unclear, ask before leaving rather than making assumptions at home.","points":["What support does the team recommend at home?","Who should explain the written discharge information?","Who should the family contact about questions or changes?"]},
+        {"title":"Agree the practical arrangements.","text":"Discuss any assistance, professional visits or equipment the team says is needed. Confirm who will arrange each item and when it needs to be in place.","points":["What needs to be ready before the person returns?","Who is responsible for arranging each part of the plan?","Which family members or care professionals will be involved?"]},
+        {"title":"Know what happens next.","text":"Make sure follow-up arrangements and communication are understood. Bring unresolved questions back to the treating team; a website care note does not replace a discharge plan.","points":["What follow-up appointments are planned?","Who will coordinate changes to support?","How will the person’s preferences and the family’s questions be included?"]}
+      ],
+      "takeaway":"A shared list of responsibilities helps the family see what is arranged, what is pending and who to ask."
+    },
+    {
+      "slug":"questions-before-arranging-care","title":"Questions before arranging care.","category":"Making arrangements","summary":"Clarify people, responsibilities, timing and costs before agreeing on support.","read":"3 min read","icon":"chat","service":"nursing",
+      "intro":"A clear conversation helps everyone understand the proposed support. These questions are a starting point for discussing arrangements directly with a care provider.",
+      "sections":[
+        {"title":"Understand who will provide support.","text":"Ask about the role, relevant qualifications and supervision of the person involved. Match the questions to the actual tasks being discussed.","points":["Who will provide care, and what is their role?","Which qualifications are relevant to the agreed tasks?","Who handles questions, concerns or changes in requirements?"]},
+        {"title":"Put the routine into words.","text":"Discuss the timing, tasks and communication in everyday language. Make sure the person receiving support has a say in the routine and understands what has been agreed.","points":["What is included during a visit or shift?","How are preferences, privacy and personal boundaries respected?","How are family updates and handovers managed?"]},
+        {"title":"Confirm the practical terms.","text":"Request a clear explanation of costs and the terms that apply to the proposed arrangement. Resolve uncertainty before a service begins.","points":["What is included in the quote, and what costs extra?","What happens if a visit must change or be cancelled?","How will the plan be reviewed if needs change?"]}
+      ],
+      "takeaway":"Keep a record of the agreed scope, contacts and practical terms so everyone has the same understanding."
+    }
+  ]
+}

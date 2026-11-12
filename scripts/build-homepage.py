@@ -22,8 +22,8 @@ def service_body(item, mobile=False):
     return (
         heading + f'<p>{html.escape(item["description"])}</p>'
         + '<p class="discussion-label">Useful to discuss</p>' + points(item['points'])
-        + f'<a class="button button-primary" href="#care-plan" data-plan="{item["id"]}">'
-        f'Plan this care {icon("arrow-right")}</a>'
+        + f'<div class="service-actions"><a class="button button-primary" href="#care-plan" data-plan="{item["id"]}">'
+        f'Plan this care {icon("arrow-right")}</a><a class="text-link" href="/services/{item["slug"]}/">Explore this service {icon("arrow-right")}</a></div>'
     )
 
 
@@ -48,6 +48,8 @@ options = ''.join(
 
 template = (ROOT / 'src/index.template.html').read_text()
 replacements = {
+    '{{header}}': __import__('supporting_pages').header(''),
+    '{{footer}}': (ROOT / 'src/footer.html').read_text(),
     '{{service_menu}}': menu,
     '{{service_default}}': service_body(services[0]),
     '{{service_accordion}}': accordion,
@@ -61,3 +63,4 @@ if '{{' in template:
     raise ValueError('Unresolved homepage template token')
 (ROOT / 'dist/index.html').write_text(template)
 print('Built dist/index.html')
+__import__('supporting_pages').build(services, template)

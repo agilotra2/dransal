@@ -121,6 +121,9 @@ select { caret-color: var(--teal); }
 .care-points li { display: flex; gap: var(--space-3); align-items: flex-start; font-size: var(--type-body); line-height: 1.5; }
 .care-points svg { height: 18px; width: 18px; color: var(--teal); margin-top: 3px; }
 .service-panel .button { margin-top: auto; }
+.service-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); margin-top: auto; }
+.service-actions .text-link { font-size: var(--type-small); }
+.section-followup { margin-top: var(--space-5); }
 .service-note { font-size: var(--type-small); margin-top: var(--space-4); max-width: 900px; }
 .mobile-services { display: none; }
 
