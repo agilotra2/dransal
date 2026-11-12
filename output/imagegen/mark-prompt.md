@@ -1,5 +1,7 @@
 # Transparent header mark
 
+Retired: the extracted mark has been removed from the website at the user's request. Use the original supplied logo unchanged. This file is retained only as historical provenance.
+
 Prepared with the built-in image generation tool from the user-supplied full logo. Original: `dist/assets/gentle-hands-logo.png`. Transparent derivative: `dist/assets/gentle-hands-mark.png`. This is not a vector master or a guarantee of pixel-exact extraction.
 
 ## Prompt

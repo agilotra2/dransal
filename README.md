@@ -31,8 +31,7 @@ The form asks for the care category and timeframe only. It prepares a care note 
 
 ## Assets
 
-- `dist/assets/gentle-hands-logo.png`: original supplied full seal, preserved in the footer.
-- `dist/assets/gentle-hands-mark.png`: transparent header pictogram prepared from the supplied logo with image generation; a raster derivative, not a vector master.
+- `dist/assets/gentle-hands-logo.png`: original supplied logo, displayed unchanged in the header, footer, About page and favicon. Only display dimensions scale; no cropping, masks, recolouring or replacement artwork.
 - `dist/assets/gentle-hands-care.jpg`: the original generated care image, used once.
 - `output/imagegen/gentle-hands-care.png`: retained generated original.
 - `output/imagegen/prompt.md`: saved generation prompt and provenance.

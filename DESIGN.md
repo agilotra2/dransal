@@ -22,7 +22,7 @@ Use native details/summary, visible focus indicators, labelled native selects, l
 
 ## Brand assets
 
-The header uses a separately prepared transparent raster pictogram plus readable wordmark. The original seal stays in the footer. Never simulate extraction by oversized CSS cropping. The care photograph is generated illustrative imagery, disclosed in the preview information.
+Use only the original supplied logo file throughout the website, including the header, footer, About page and favicon. Display the whole image with its original proportions and colours. Do not extract, regenerate, crop, mask, round the corners of, or otherwise alter the logo. Do not add a substitute wordmark. The care photograph is generated illustrative imagery, disclosed in the preview information.
 
 ## Supporting pages
 
