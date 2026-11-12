@@ -44,3 +44,14 @@ The form asks for the care category and timeframe only. It prepares a care note 
 ## Deployment
 
 The existing private Site identity is retained in `.openai/hosting.json`; deploy `dist/` through Sites.
+
+GitHub Pages uses `.github/workflows/pages.yml` to build and publish the website artifact from `_site/`. Repository Settings → Pages must use **GitHub Actions** as its source. Publishing the repository root through Jekyll displays this README instead of the website.
+
+The Pages build reads its base path from the hosting configuration (currently `/dransal`) and prefixes assets, navigation and dynamically generated service links. To check it locally:
+
+```sh
+python3 scripts/build-pages.py --base-path /dransal
+python3 scripts/verify-site.py --directory _site --base-path /dransal
+```
+
+The root-hosted `dist/` build is retained for the existing Sites deployment. `_site/` is generated and ignored by Git.

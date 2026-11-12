@@ -4,8 +4,15 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 import json
+import argparse
 
-ROOT = Path(__file__).resolve().parents[1] / 'dist'
+PROJECT = Path(__file__).resolve().parents[1]
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--directory', type=Path, default=PROJECT / 'dist')
+parser.add_argument('--base-path', default='')
+args = parser.parse_args()
+ROOT = args.directory.resolve()
+BASE = '/' + args.base_path.strip('/') if args.base_path.strip('/') else ''
 
 
 class Page(HTMLParser):
@@ -61,7 +68,13 @@ for path, page in pages.items():
         url = urlsplit(reference)
         if url.scheme or url.netloc:
             continue
-        target = (ROOT / unquote(url.path).lstrip('/')) if url.path.startswith('/') else (path.parent / unquote(url.path))
+        local_path = unquote(url.path)
+        if local_path.startswith('/') and BASE:
+            if not local_path.startswith(BASE + '/'):
+                errors.append(f'{path.relative_to(ROOT)} → link escapes deployment base: {reference}')
+                continue
+            local_path = local_path[len(BASE):]
+        target = (ROOT / local_path.lstrip('/')) if local_path.startswith('/') else (path.parent / local_path)
         if not url.path:
             target = path
         if target.is_dir():
@@ -75,7 +88,7 @@ for path, page in pages.items():
 titles = Counter(page.title for page in pages.values())
 if any(count > 1 for count in titles.values()):
     errors.append('Page titles are not unique')
-services = json.loads((ROOT.parent / 'content/services.json').read_text())
+services = json.loads((PROJECT / 'content/services.json').read_text())
 for service in services:
     if not (ROOT / 'services' / service['slug'] / 'index.html').is_file():
         errors.append(f'Missing service route for {service["id"]}')

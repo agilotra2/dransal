@@ -3,6 +3,7 @@
 const services = JSON.parse(document.querySelector('#care-data').textContent);
 const serviceById = new Map(services.map(service => [service.id, service]));
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const deploymentBase = document.documentElement.dataset.basePath || '';
 const mobile = window.matchMedia('(max-width: 700px)');
 const serviceTabs = [...document.querySelectorAll('[data-service]')];
 const servicePanel = document.querySelector('#service-panel');
@@ -20,7 +21,7 @@ const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
 const icon = name => `<svg aria-hidden="true"><use href="#${name}"/></svg>`;
 
 function renderService(service) {
-  return `<h3>${escapeHtml(service.heading)}</h3><p>${escapeHtml(service.description)}</p><p class="discussion-label">Useful to discuss</p><ul class="care-points">${service.points.map(point => `<li>${icon('check')}<span>${escapeHtml(point)}</span></li>`).join('')}</ul><div class="service-actions"><a class="button button-primary" href="#care-plan" data-plan="${service.id}">Plan this care ${icon('arrow-right')}</a><a class="text-link" href="/services/${service.slug}/">Explore this service ${icon('arrow-right')}</a></div>`;
+  return `<h3>${escapeHtml(service.heading)}</h3><p>${escapeHtml(service.description)}</p><p class="discussion-label">Useful to discuss</p><ul class="care-points">${service.points.map(point => `<li>${icon('check')}<span>${escapeHtml(point)}</span></li>`).join('')}</ul><div class="service-actions"><a class="button button-primary" href="#care-plan" data-plan="${service.id}">Plan this care ${icon('arrow-right')}</a><a class="text-link" href="${deploymentBase}/services/${service.slug}/">Explore this service ${icon('arrow-right')}</a></div>`;
 }
 
 function selectService(id, focus = false) {
