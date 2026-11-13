@@ -2,6 +2,12 @@
 
 A responsive website using the supplied logo's navy, turquoise and gold, with white and pale mint surfaces. Care services and planning a conversation are the primary journey.
 
+## Maintainer map
+
+Open [How Gentle Hands works](https://agilotra2.github.io/dransal/maintainer/) for an interactive overview of the editable files, HTML generation, deployments and browser-only care-note flow. Select a node to inspect its pinned source references; `T` switches themes, and the diagram controls provide zoom, search and route tracing.
+
+The [standalone HTML](docs/architecture/how-gentle-hands-works.html) can also be downloaded and opened locally. Its [editable diagram source](docs/architecture/how-gentle-hands-works.architecture.json) and [maintenance notes](docs/architecture/README.md) are kept alongside it. This is developer documentation on a separate URL, outside customer navigation.
+
 ## Preview
 
 Run `python3 scripts/build-homepage.py`, then `python3 -m http.server 4173 --bind 127.0.0.1 --directory dist` and open http://127.0.0.1:4173. The Python build uses only the standard library and generates all pages. Shared shell files live in `src/`; services and guide/FAQ content live in `content/`; supporting-page rendering lives in `scripts/supporting_pages.py`. Styles and browser JavaScript live directly in `dist/`.

@@ -31,6 +31,13 @@ jobs:
           node --check _site/site.js
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      - name: Include standalone maintainer documentation
+        # Preserve verified map bytes; do not run the website URL rewriter on it.
+        run: |
+          mkdir -p _site/maintainer
+          cp docs/architecture/how-gentle-hands-works.html _site/maintainer/index.html
+          cp docs/architecture/ARCHIFY-LICENSE.txt _site/maintainer/ARCHIFY-LICENSE.txt
+          cp docs/architecture/ARCHIFY-THIRD-PARTY-NOTICES.md _site/maintainer/ARCHIFY-THIRD-PARTY-NOTICES.md
       - name: Upload website artifact
         uses: actions/upload-pages-artifact@v4
         with:

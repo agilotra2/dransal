@@ -1,0 +1,485 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "How Gentle Hands works",
+    "locale": "en",
+    "output": "docs/architecture/how-gentle-hands-works.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/agilotra2/dransal.git",
+      "revision": "0fac57ca1590012aa7aa07d21941239635a819c4",
+      "provider": "github",
+      "link_mode": "web"
+    },
+    "views": [
+      {
+        "id": "editing",
+        "label": "Where to edit",
+        "focus": [
+          "editable",
+          "generator",
+          "dist"
+        ],
+        "note": "Edit shared templates/content, then regenerate HTML. CSS, JavaScript and image assets live directly in dist/."
+      },
+      {
+        "id": "publication",
+        "label": "Build and publish",
+        "focus": [
+          "ci",
+          "packaging",
+          "generator",
+          "dist",
+          "checks",
+          "hosting",
+          "sites"
+        ],
+        "note": "GitHub Actions publishes the Pages artifact after checks. The Sites target is a separate manual release."
+      },
+      {
+        "id": "care-flow",
+        "label": "Care-note flow",
+        "focus": [
+          "hosting",
+          "browser",
+          "note",
+          "device",
+          "fonts"
+        ],
+        "note": "Care category and timing generate a local note. This path sends no enquiry and creates no booking."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "editable",
+      "type": "frontend",
+      "label": "Content + templates",
+      "sublabel": "content/ and src/",
+      "pos": [
+        40,
+        40
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "scripts/build-homepage.py",
+          "line": 49,
+          "end_line": 59
+        },
+        {
+          "path": "scripts/supporting_pages.py",
+          "line": 1,
+          "end_line": 8
+        },
+        {
+          "path": "DESIGN.md",
+          "line": 23,
+          "end_line": 25
+        }
+      ]
+    },
+    {
+      "id": "generator",
+      "type": "backend",
+      "label": "HTML generator",
+      "sublabel": "Python, build time only",
+      "pos": [
+        360,
+        40
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "scripts/build-homepage.py",
+          "line": 60,
+          "end_line": 66
+        },
+        {
+          "path": "scripts/supporting_pages.py",
+          "line": 51,
+          "end_line": 72
+        }
+      ]
+    },
+    {
+      "id": "dist",
+      "type": "frontend",
+      "label": "dist/ website",
+      "sublabel": "HTML, CSS, JS, images",
+      "pos": [
+        680,
+        40
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "scripts/build-homepage.py",
+          "line": 64,
+          "end_line": 66
+        },
+        {
+          "path": "src/index.template.html",
+          "line": 9,
+          "end_line": 16
+        },
+        {
+          "path": "src/header.html",
+          "line": 1,
+          "end_line": 9
+        }
+      ]
+    },
+    {
+      "id": "sites",
+      "type": "cloud",
+      "label": "Sites target",
+      "sublabel": "Separate manual release",
+      "pos": [
+        1000,
+        40
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": ".openai/hosting.json",
+          "line": 1,
+          "end_line": 6
+        },
+        {
+          "path": "README.md",
+          "line": 43,
+          "end_line": 56
+        }
+      ]
+    },
+    {
+      "id": "ci",
+      "type": "backend",
+      "label": "GitHub Actions",
+      "sublabel": "On pushes to main",
+      "pos": [
+        40,
+        250
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": ".github/workflows/pages.yml",
+          "line": 1,
+          "end_line": 6
+        },
+        {
+          "path": ".github/workflows/pages.yml",
+          "line": 15,
+          "end_line": 37
+        }
+      ]
+    },
+    {
+      "id": "packaging",
+      "type": "backend",
+      "label": "Pages packaging",
+      "sublabel": "Build, copy, prefix paths",
+      "pos": [
+        360,
+        250
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "scripts/build-pages.py",
+          "line": 18,
+          "end_line": 33
+        }
+      ]
+    },
+    {
+      "id": "checks",
+      "type": "security",
+      "label": "Verify artifact",
+      "sublabel": "Links, IDs, titles, JS",
+      "pos": [
+        680,
+        250
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "scripts/verify-site.py",
+          "line": 49,
+          "end_line": 97
+        },
+        {
+          "path": ".github/workflows/pages.yml",
+          "line": 27,
+          "end_line": 37
+        }
+      ]
+    },
+    {
+      "id": "hosting",
+      "type": "cloud",
+      "label": "GitHub Pages",
+      "sublabel": "Publish _site/ artifact",
+      "pos": [
+        1000,
+        250
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": ".github/workflows/pages.yml",
+          "line": 34,
+          "end_line": 51
+        }
+      ]
+    },
+    {
+      "id": "device",
+      "type": "external",
+      "label": "Copy / download",
+      "sublabel": "Clipboard or local text file",
+      "pos": [
+        40,
+        480
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "dist/app.js",
+          "line": 123,
+          "end_line": 139
+        }
+      ]
+    },
+    {
+      "id": "note",
+      "type": "frontend",
+      "label": "Care-note logic",
+      "sublabel": "Runs in browser memory",
+      "pos": [
+        360,
+        480
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "dist/app.js",
+          "line": 93,
+          "end_line": 117
+        },
+        {
+          "path": "dist/app.js",
+          "line": 119,
+          "end_line": 139
+        }
+      ]
+    },
+    {
+      "id": "browser",
+      "type": "frontend",
+      "label": "Family browser",
+      "sublabel": "Explore, select, plan",
+      "pos": [
+        680,
+        480
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "src/index.template.html",
+          "line": 24,
+          "end_line": 37
+        },
+        {
+          "path": "dist/app.js",
+          "line": 23,
+          "end_line": 44
+        },
+        {
+          "path": "scripts/supporting_pages.py",
+          "line": 88,
+          "end_line": 97
+        }
+      ]
+    },
+    {
+      "id": "fonts",
+      "type": "external",
+      "label": "Google Fonts",
+      "sublabel": "External font dependency",
+      "pos": [
+        1000,
+        480
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "src/index.template.html",
+          "line": 10,
+          "end_line": 12
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "source-html",
+      "from": "editable",
+      "to": "generator",
+      "label": "JSON + HTML"
+    },
+    {
+      "id": "write-html",
+      "from": "generator",
+      "to": "dist",
+      "label": "writes HTML"
+    },
+    {
+      "id": "manual-sites",
+      "from": "dist",
+      "to": "sites",
+      "label": "manual publish"
+    },
+    {
+      "id": "ci-package",
+      "from": "ci",
+      "to": "packaging",
+      "label": "runs",
+      "variant": "emphasis"
+    },
+    {
+      "id": "package-build",
+      "from": "packaging",
+      "to": "generator",
+      "label": "builds first"
+    },
+    {
+      "id": "package-copy",
+      "from": "packaging",
+      "to": "dist",
+      "label": "copies dist/"
+    },
+    {
+      "id": "package-verify",
+      "from": "packaging",
+      "to": "checks",
+      "label": "_site/ output",
+      "variant": "emphasis"
+    },
+    {
+      "id": "publish-after-check",
+      "from": "checks",
+      "to": "hosting",
+      "label": "if checks pass",
+      "variant": "emphasis"
+    },
+    {
+      "id": "serve-pages",
+      "from": "hosting",
+      "to": "browser",
+      "label": "static pages",
+      "variant": "emphasis"
+    },
+    {
+      "id": "care-choices",
+      "from": "browser",
+      "to": "note",
+      "label": "care choices",
+      "variant": "emphasis"
+    },
+    {
+      "id": "export-note",
+      "from": "note",
+      "to": "device",
+      "label": "text note",
+      "variant": "emphasis"
+    },
+    {
+      "id": "font-request",
+      "from": "browser",
+      "to": "fonts",
+      "label": "font request"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Edit the right source",
+      "items": [
+        "content/*.json: service data, FAQs and guides.",
+        "src/*.html: shared shell and homepage structure.",
+        "scripts/supporting_pages.py: supporting-page copy/layout.",
+        "dist/*.css, *.js and assets/: styles, behaviour and images."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Build and publish",
+      "items": [
+        "The Python build writes 16 HTML documents, including the 404 page.",
+        "Pages packaging adds /dransal/ to local asset and navigation paths.",
+        "CI verifies the artifact before deploying it.",
+        "Sites uses dist/ through its existing hosting manifest; GitHub CI does not publish to Sites."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "What the care form actually does",
+      "items": [
+        "Service links can preselect the care category with ?care=...",
+        "Category + timeframe produce a note in page memory.",
+        "Copy/download uses the device; no enquiry API or booking is implemented.",
+        "Google Fonts is an external network dependency."
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Preserve the brand",
+      "items": [
+        "Use assets/gentle-hands-logo.png unchanged in every logo placement.",
+        "The shared header/footer affect all generated pages.",
+        "Do not extract, regenerate, crop, recolour or replace the supplied logo.",
+        "Source cards are pinned to the original-logo restoration commit."
+      ]
+    }
+  ]
+}
